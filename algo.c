@@ -1,39 +1,73 @@
+// Merge sort in C
+
 #include <stdio.h>
 
-#define max 10
+// Merge two subarrays L and M into arr
+void merge(int arr[], int p, int q, int r) {
 
-int a[11] = { 10, 14, 19, 26, 27, 31, 33, 35, 42, 44, 0 };
-int b[10];
+  // Create L ← A[p..q] and M ← A[q+1..r]
+  int n1 = q - p + 1;
+  int n2 = r - q;
 
-void merging(int low, int mid, int high) {
-   int l1, l2, i;
+  int L[n1], M[n2];
 
-   for(l1 = low, l2 = mid + 1, i = low; l1 <= mid && l2 <= high; i++) {
-      if(a[l1] <= a[l2])
-         b[i] = a[l1++];
-      else
-         b[i] = a[l2++];
-   }
-   
-   while(l1 <= mid)    
-      b[i++] = a[l1++];
+  for (int i = 0; i < n1; i++)
+    L[i] = arr[p + i];
+  for (int j = 0; j < n2; j++)
+    M[j] = arr[q + 1 + j];
 
-   while(l2 <= high)   
-      b[i++] = a[l2++];
+  // Maintain current index of sub-arrays and main array
+  int i, j, k;
+  i = 0;
+  j = 0;
+  k = p;
 
-   for(i = low; i <= high; i++)
-      a[i] = b[i];
+  // Until we reach either end of either L or M, pick larger among
+  // elements L and M and place them in the correct position at A[p..r]
+  while (i < n1 && j < n2) {
+    if (L[i] <= M[j]) {
+      arr[k] = L[i];
+      i++;
+    } else {
+      arr[k] = M[j];
+      j++;
+    }
+    k++;
+  }
+
+  // When we run out of elements in either L or M,
+  // pick up the remaining elements and put in A[p..r]
+  while (i < n1) {
+    arr[k] = L[i];
+    i++;
+    k++;
+  }
+
+  while (j < n2) {
+    arr[k] = M[j];
+    j++;
+    k++;
+  }
 }
 
-void sort(int low, int high) {
-   int mid;
-   
-   if(low < high) {
-      mid = (low + high) / 2;
-      sort(low, mid);
-      sort(mid+1, high);
-      merging(low, mid, high);
-   } else { 
-      return;
-   }   
+// Divide the array into two subarrays, sort them and merge them
+void mergeSort(int arr[], int l, int r) {
+  if (l < r) {
+
+    // m is the point where the array is divided into two subarrays
+    int m = l + (r - l) / 2;
+
+    mergeSort(arr, l, m);
+    mergeSort(arr, m + 1, r);
+
+    // Merge the sorted subarrays
+    merge(arr, l, m, r);
+  }
+}
+
+// Print the array
+void printArray(int arr[], int size) {
+  for (int i = 0; i < size; i++)
+    printf("%d ", arr[i]);
+  printf("\n");
 }
