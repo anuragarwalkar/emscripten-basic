@@ -1008,6 +1008,10 @@ var ASM_CONSTS = {
       HEAP8.set(array, buffer);
     }
 
+  function _emscripten_memcpy_big(dest, src, num) {
+      HEAPU8.copyWithin(dest, src, src + num);
+    }
+
   function uleb128Encode(n, target) {
       if (n < 128) {
         target.push(n);
@@ -1496,7 +1500,7 @@ var ASM_CONSTS = {
 var ASSERTIONS = false;
 
 var asmLibraryArg = {
-  
+  "emscripten_memcpy_big": _emscripten_memcpy_big
 };
 var asm = createWasm();
 /** @type {function(...*):?} */
@@ -1505,8 +1509,13 @@ var ___wasm_call_ctors = Module["___wasm_call_ctors"] = function() {
 };
 
 /** @type {function(...*):?} */
-var _sum = Module["_sum"] = function() {
-  return (_sum = Module["_sum"] = Module["asm"]["sum"]).apply(null, arguments);
+var _merge = Module["_merge"] = function() {
+  return (_merge = Module["_merge"] = Module["asm"]["merge"]).apply(null, arguments);
+};
+
+/** @type {function(...*):?} */
+var _mergeSort = Module["_mergeSort"] = function() {
+  return (_mergeSort = Module["_mergeSort"] = Module["asm"]["mergeSort"]).apply(null, arguments);
 };
 
 /** @type {function(...*):?} */
