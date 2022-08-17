@@ -9,12 +9,12 @@ const config = {
             initial: 0,
             element: 'anyfunc',
         }),
-    }
+    }, 
   }
 
 WebAssembly.instantiateStreaming(fetch('./wasi.wasm'), config)
 .then((results) => {
-    console.log('results:', results.instance.exports.sum(1, 2))
+    console.log('results:', results);
   // Do something with the results!
 });
 
