@@ -65,9 +65,11 @@ void mergeSort(int arr[], int l, int r) {
   }
 }
 
-// Print the array
-void printArray(int arr[], int size) {
-  for (int i = 0; i < size; i++)
-    printf("%d ", arr[i]);
-  printf("\n");
-}
+// #ifdef __cplusplus
+// #else
+// #define EXTERN
+// #endif
+
+// EXTERN EMSCRIPTEN_KEEPALIVE void printArray(int arr[], int size) {
+//   printf("anurag\n");
+// }
